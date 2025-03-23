@@ -1,23 +1,20 @@
 { config, pkgs, ... }:
 
 {
-
+  # Enable experimental features for Nix
   nix.extraOptions = ''
     experimental-features = nix-command
-    '';
+  '';
+
+  # Import hardware configuration
   imports =
     [
-
-    ./hardware-configuration.nix
-   
+      ./hardware-configuration.nix
     ];
 
-  # Bootloader.
+  # Bootloader configuration
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-
-
 
   # Configure networking
   networking.hostName = "T480";
@@ -26,7 +23,7 @@
   # Set time zone
   time.timeZone = "Europe/Berlin";
 
-  # Set localization
+  # Localization settings
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
@@ -40,73 +37,103 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-
-
-  # Enable X11
+  # Enable X11 with GNOME as the desktop environment
   services.xserver = {
-  enable = true;
-  displayManager.gdm.enable = true;
-  desktopManager.gnome.enable = true;
+    enable = true;
+    xkb.layout = "de";
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true; 
   };
 
-
-# Define a user account
+  # Define user account with password
   users.users.think = {
     isNormalUser = true;
     description = "Angstcraft";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    password = "gamma"; # Set user password
     packages = with pkgs; [
       thunderbird
       xarchiver
-	    ];
+    ];
   };
 
-  # Enable Java
+  # Enable Java with OpenJFX
   programs.java = {
     enable = true;
-    package = pkgs.openjfx23;
-   # package = pkgs.jdk23;
+    package = pkgs.openjfx23; # You can change this to the desired JDK if necessary
   };
 
-  # Install Firefox
+  # Enable Firefox
   programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Install additional packages
   environment.systemPackages = with pkgs; [
+    # Replace these with the correct package names as found
+    
+    eclipses.eclipse-jee
+    eclipses.eclipse-dsl
+    eclipses.eclipse-embedcpp
+    openjdk
+    openjfx
+    
+    # Development tools
     home-manager
-    neofetch
-    libGL
-    scenic-view
-    scenebuilder
-    python3
     git
     neovim
-    jetbrains.idea-community
-    eclipses.eclipse-java
     vscodium
-    libkvmi
-    discord
-    spotify
-    orca-slicer
-    arduino-ide
-    gnuradioMinimal
-    gqrx
-    virtualbox
+    rustc
+    go
+    gcc                # C/C++ compiler
+    cmakerc
 
-    wezterm
+    #Python Packages
+    python3
+    python3Packages.numpy
+    python3Packages.matplotlib
+    python3Packages.plotly
+    python3Packages.scipy
+    python3Packages.pandas
+    python3Packages.jupyterlab
+    
+
+    # GNOME extensions
+    gnomeExtensions.space-bar
+    gnomeExtensions.switcher
+    gnomeExtensions.tactile
+    gnomeExtensions.just-perfection
+    gnomeExtensions.tophat
+    gnomeExtensions.transparent-top-bar
+    gnomeExtensions.user-themes
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.add-to-desktop
+    gnomeExtensions.forge
+    gnomeExtensions.custom-window-controls
+    gnomeExtensions.logo-menu
+
+    # Office applications
+    scenic-view
+    scenebuilder
+    jetbrains.idea-community
+    librewolf
     obsidian
     wpsoffice
+    discord
+    spotify
+
+    # Miscellaneous/Utilities
+    neofetch
+    spicetify-cli
+    libGL
+    kitty
+    orca-slicer
     kicad-small
+    android-studio
+  ];
 
-
-    python312Packages.numpy
-    gnome.gnome-keyring
-    ];
- 
-
+  # Optional configurations
   # Enable SSH
   # services.openssh.enable = true;
 
@@ -116,4 +143,3 @@
   # System version
   system.stateVersion = "24.11";
 }
-
