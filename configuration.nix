@@ -64,29 +64,47 @@
   };
 
   # Enable Firefox
-  programs.firefox.enable = true;
+  programs.firefox = {
+  enable = true;
+  package = pkgs.librewolf;
+};
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    # Replace these with the correct package names as found
-    
-    eclipses.eclipse-jee
-    eclipses.eclipse-dsl
-    eclipses.eclipse-embedcpp
-    openjdk
-    openjfx
     
     # Development tools
     home-manager
+    kitty
     git
     neovim
     vscodium
+
+    #java
+    eclipses.eclipse-java
+    openjdk
+    openjfx
+    scenic-view
+    scenebuilder
+    jetbrains.idea-community
+    android-studio 
+
+    #Rust
     rustc
+
+    #Go
     go
+
+    #C/C++ 
+
+    arduino-ide
     gcc                # C/C++ compiler
     cmakerc
+
+    #Engineering
+    orca-slicer
+    kicad-small
 
     #Python Packages
     python3
@@ -108,30 +126,25 @@
     gnomeExtensions.user-themes
     gnomeExtensions.blur-my-shell
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.add-to-desktop
     gnomeExtensions.forge
     gnomeExtensions.custom-window-controls
     gnomeExtensions.logo-menu
 
     # Office applications
-    scenic-view
-    scenebuilder
-    jetbrains.idea-community
-    librewolf
+    nemo   
     obsidian
     wpsoffice
     discord
     spotify
+    davinci-resolve
+    bottles #For vine {Windows exe}
 
-    # Miscellaneous/Utilities
-    neofetch
-    spicetify-cli
+    #Ham Radio
     libGL
-    kitty
-    orca-slicer
-    kicad-small
-    android-studio
-  ];
+    gnuradioMinimal
+    
+    
+     ];
 
   # Optional configurations
   # Enable SSH
