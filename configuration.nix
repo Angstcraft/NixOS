@@ -11,16 +11,18 @@
     [
       ./hardware-configuration.nix
       ./vm.nix
+      ./nvim.nix 
+     
     ];
   # Bootloader configuration
-   boot.loader.grub = {
-    enable = true;        # Enable GRUB
-    version = 2;         # Specify GRUB version
-    devices = [ "/dev/sda" ];  # List your boot device(s), adjust as necessary
-  };
+ boot.loader.systemd-boot.enable = false;
+boot.loader.grub.enable = true;
+boot.loader.grub.device = "nodev";
+boot.loader.grub.useOSProber = true;
+boot.loader.grub.efiSupport = true;
+boot.loader.efi.canTouchEfiVariables = true;
+boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Allow EFI variables to be modified
-  boot.loader.efi.canTouchEfiVariables = true;
   # Configure networking
   networking.hostName = "T480";
   networking.networkmanager.enable = true;
@@ -63,6 +65,7 @@
       xarchiver
     ];
   };
+  
 
   # Enable Java with OpenJFX
   programs.java = {
@@ -85,7 +88,7 @@
     home-manager
     kitty
     git
-    neovim
+    qtcreator
     vscodium
 
     # Java and Development Tools
@@ -96,13 +99,7 @@
     scenebuilder
     jetbrains.idea-community
     android-studio
-
-    # ----- Emacs and Java/C/C++/Arduino Development Configuration -----
-    emacs
-    maven                  # For building Java projects
-    gradle                 # Gradle build tool for Java
-    openjdk11              # Java Development Kit
-
+    
     # C/C++ and Arduino Development
     arduino-ide            # Arduino IDE
     gcc                # GCC for C/C++ compilation
@@ -142,100 +139,36 @@
     gnomeExtensions.custom-window-controls
     gnomeExtensions.logo-menu
 
+    gnomeExtensions.unite
+    gnomeExtensions.dash-to-panel
+#    gnomeExtensions.open-Bar
+#    gnomeExtensions.popShell
+#    gnomeExtensions.roundedWindowCornersReborn
+
+    #Music
+    lmms
+    ardour
+
+    #Art
+    blender
+    krita
+
     # Office applications
     nemo
-    gimp
     obsidian
     wpsoffice
+    signal-cli
     discord
     spotify
     bottles # For running Windows executables
-
+    bitwarden-desktop
+    rustdesk-flutter
 
     # Ham Radio
     libGL
     gnuradioMinimal
   ];
-  
-  
-  /*
 
-  # Emacs Cn
-  programs.emacs = {
-    enable = true; # Activate Emacs
-    extraPackages = ps: with ps; [
-      use-package
-      lsp-mode            # Language Server Protocol support
-      eglot               # LSP client for Emacs
-      company             # Autocompletion
-      flycheck           # Syntax checking
-      java-mode           # Mode for Java files
-      java-snippets       # Snippets for Java programming
-      dap-mode            # Debug Adapter Protocol support for various languages
-
-      # C/C++ support packages
-      cc-mode             # C and C++ Mode
-      irony               # C/C++ code completion
-      company-irony       # Company mode backend for Irony
-      gdb                 # GDB for debugging
-      cmake-mode          # CMake mode
-
-      # Arduino support
-      arduino-mode        # Arduino mode for Emacs
-
-      # Theme (assuming you have cattpuccin-theme package)
-      (with pkgs.cattpuccin-theme; cattpuccin)
-    ];
-
-    # File to initialize Emacs
-    initFile = ''
-      ;; Set MELPA as a package source
-      (require 'package)
-      (setq package-enable-at-startup nil)
-      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-      (package-initialize)
-
-      ;; Load Cattpuccin theme
-      (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-      (load-theme 'cattpuccin t)
-
-      ;; Programming language setup
-      (require 'lsp-mode)
-      (setq lsp-enable-symbol-highlighting nil)
-
-      ;; Enable LSP for Java
-      (require 'eglot)
-      (add-hook 'java-mode-hook 'eglot-ensure)
-
-      ;; C/C++ Configuration
-      (add-hook 'c-mode-hook 'eglot-ensure)
-      (add-hook 'c++-mode-hook 'eglot-ensure)
-      (require 'irony)
-
-      ;; Additional Java customizations
-      (setq lsp-java-java-path "/path/to/your/java")  ;; Adjust to your Java path if needed
-      (setq java-indent 4)
-      (setq-default c-basic-offset 4)
-      (add-hook 'java-mode-hook
-                (lambda ()
-                  (setq indent-tabs-mode nil))) ;; Use spaces, not tabs
-
-      ;; Enable DAP for Java debugging
-      (require 'dap-java)
-      (dap-java-configure)
-
-      ;; Arduino setup
-      (require 'arduino-mode)
-
-      ;; Other key bindings
-      (global-set-key (kbd "C-x g") 'magit-status)
-    '';
-  };
-
- **/
- 
- 
- 
   # Optional configurations
   # Enable SSH
   # services.openssh.enable = true;
