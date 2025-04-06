@@ -6,7 +6,7 @@
   programs.dconf.enable = true;
 
   # Add user to libvirtd group
-  users.users.think.extraGroups = [ "libvirtd" ];
+  users.users.qubit.extraGroups = [ "libvirtd" ];
 
   # Install necessary packages
   environment.systemPackages = with pkgs; [
@@ -16,7 +16,7 @@
     spice-protocol
     win-virtio
     win-spice
-    gnome.adwaita-icon-theme
+    #gnome.adwaita-icon-theme
   ];
 
   # Manage the virtualisation services
