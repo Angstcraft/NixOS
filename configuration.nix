@@ -109,6 +109,10 @@
     git
     qtcreator
     vscodium
+    nodejs
+    
+    isoimagewriter
+
     # Java and Development Tools
     eclipses.eclipse-java
     scenic-view
@@ -153,6 +157,8 @@
 
     # Office applications
     obsidian
+    signald
+    signaldctl
     wpsoffice
     discord
     spotify
